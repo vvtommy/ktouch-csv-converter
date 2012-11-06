@@ -2,7 +2,7 @@
 #coding=utf-8
 
 import sys
-from ktouch import read_ktouch_message_csv,convert_message,
+from ktouch import read_ktouch_message_csv,convert_message
 
 from optparse import OptionParser
 

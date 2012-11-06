@@ -102,11 +102,14 @@ def read_ktouch_phone_book_csv(file):
 def generate_icard(data):
     ret=''
     for x in data:
-        ret+='BEGIN:VCARD\nVERSION:3.0\nPRODID:-//Apple Inc.//iOS 5.0.1//EN\n\
+        ret+='BEGIN:VCARD\n\
+VERSION:3.0\n\
 FN:%s\n\
-TEL;type=CELL;type=VOICE;type=pref:%s\n\
-END:VCARD\n\
-'%(x['name'],x['number'])
+N:;%s;;;\n\
+TEL;TYPE=CELL:%s\n\
+CATEGORIES:所有联系人\n\
+X-WDJ-STARRED:0\n\
+END:VCARD\n'%(x['name'],x['name'],x['number'])
     return ret
 
 if __name__ == '__main__':
