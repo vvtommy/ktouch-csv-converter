@@ -9,7 +9,7 @@ def convert_time(old_time):
     return tmp[0].replace('/','.')+' '+tmp[1][:5]+','+tmp[1][6:]
 
 # 两种type:deliver|submit
-def convert(lines,type=None):
+def convert_message(lines,type=None):
     ret=[]
     # 跳过首行标志
     flag=True
@@ -44,7 +44,7 @@ def convert(lines,type=None):
 
     return ret
 
-def read_ktouch_csv(file_path):
+def read_ktouch_message_csv(file_path):
     try:
         f=open(file_path,'rb')
         file_buffer=f.read()
@@ -81,3 +81,35 @@ def read_ktouch_csv(file_path):
     except IOError,e:
         print e
     return ret
+
+def read_ktouch_phone_book_csv(file):
+    ret=[]
+    try:
+        f=open(file)
+
+        for line in f:
+            line=line.strip()
+
+            if line[-3:] != ',,,':
+                # 略过第一行
+                continue
+            info=line.split(',')
+            ret.append({'name':info[0][1:-1].strip(),'number':info[1][1:-1].strip()})
+        f.close()
+    except IOError,e:
+        print e
+    return ret
+def generate_icard(data):
+    ret=''
+    for x in data:
+        ret+='BEGIN:VCARD\nVERSION:3.0\nPRODID:-//Apple Inc.//iOS 5.0.1//EN\n\
+FN:%s\n\
+TEL;type=CELL;type=VOICE;type=pref:%s\n\
+END:VCARD\n\
+'%(x['name'],x['number'])
+    return ret
+
+if __name__ == '__main__':
+    print 'K-Touch Module'
+
+

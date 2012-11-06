@@ -2,7 +2,7 @@
 #coding=utf-8
 
 import sys
-from ktouch import read_ktouch_csv,convert
+from ktouch import read_ktouch_message_csv,convert_message,
 
 from optparse import OptionParser
 
@@ -23,14 +23,14 @@ if __name__ == '__main__':
 
     (options,args)=parser.parse_args()
 
-    outbox_buffer=read_ktouch_csv(options.outbox)
-    outbox_result=convert(outbox_buffer,'deliver')
+    outbox_buffer=read_ktouch_message_csv(options.outbox)
+    outbox_result=convert_message(outbox_buffer,'deliver')
 
-    inbox_buffer=read_ktouch_csv(options.inbox)
-    inbox_result=convert(inbox_buffer,'submit')
+    inbox_buffer=read_ktouch_message_csv(options.inbox)
+    inbox_result=convert_message(inbox_buffer,'submit')
 
-    draft_buffer=read_ktouch_csv(options.draft)
-    draft_result=convert(draft_buffer)
+    draft_buffer=read_ktouch_message_csv(options.draft)
+    draft_result=convert_message(draft_buffer)
 
     file_to_write=open(options.output,'w')
     for line in (outbox_result+inbox_result+draft_result):
